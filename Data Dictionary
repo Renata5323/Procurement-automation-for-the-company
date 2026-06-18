@@ -1,0 +1,82 @@
+1. Users (Пользователи)
+Описание: хранит информацию о пользователях системы
+Поля:
+* user_id (INT, PK) — уникальный идентификатор пользователя
+* full_name (VARCHAR(255)) — полное имя пользователя
+* email (VARCHAR(255)) — email пользователя, уникальный
+* password_hash (VARCHAR(255)) — хэш пароля
+* role_id (INT, FK) — роль пользователя
+* is_active (BIT) — активен ли пользователь
+* created_at (DATETIME) — дата создания учетной записи
+
+2. Roles (Роли)
+Описание: справочник ролей пользователей
+Поля:
+* role_id (INT, PK) — идентификатор роли
+* role_name (VARCHAR(100)) — название роли
+
+3. Requests (Заявки на закупку)
+Описание: основная сущность процесса закупок
+Поля:
+* request_id (INT, PK) — идентификатор заявки
+* created_by (INT, FK) — пользователь, создавший заявку
+* assigned_manager_id (INT, FK) — менеджер по закупкам
+* status_id (INT, FK) — статус заявки
+* priority (VARCHAR(50)) — приоритет заявки
+* total_cost (DECIMAL(10,2)) — общая стоимость заявки
+* comment (TEXT) — комментарий к заявке
+* created_at (DATETIME) — дата создания
+* updated_at (DATETIME) — дата последнего обновления
+
+4. Request_Items (Позиции заявки)
+Описание: товары внутри заявки
+Поля:
+* item_id (INT, PK) — идентификатор позиции
+* request_id (INT, FK) — ссылка на заявку
+* item_name (VARCHAR(255)) — наименование товара
+* category (VARCHAR(100)) — категория товара
+* quantity (INT) — количество
+* unit_price (DECIMAL(10,2)) — цена за единицу
+
+5. Statuses (Статусы заявок)
+Описание: справочник статусов
+Поля:
+* status_id (INT, PK) — идентификатор статуса
+* status_name (VARCHAR(100)) — название статуса
+
+6. Suppliers (Поставщики)
+Описание: информация о поставщиках
+Поля:
+* supplier_id (INT, PK) — идентификатор поставщика
+* supplier_name (VARCHAR(255)) — название поставщика
+* supplier_type (VARCHAR(100)) — тип поставляемой продукции
+* contact_phone (VARCHAR(50)) — телефон
+* email (VARCHAR(255)) — email
+
+7. Request_Suppliers (Заявка–Поставщик)
+Описание: связь многие ко многим между заявками и поставщиками
+Поля:
+* id (INT, PK) — идентификатор связи
+* request_id (INT, FK) — ссылка на заявку
+* supplier_id (INT, FK) — ссылка на поставщика
+* selected_at (DATETIME) — дата выбора поставщика
+
+8. Approvals (Согласования)
+Описание: история согласований заявок
+Поля:
+* approval_id (INT, PK) — идентификатор согласования
+* request_id (INT, FK) — заявка
+* approved_by (INT, FK) — пользователь, принявший решение
+* decision (VARCHAR(50)) — решение (approved / rejected)
+* comment (TEXT) — комментарий
+* decision_date (DATETIME) — дата решения
+
+
+9. Logs (Журнал действий)
+Описание: аудит действий пользователей
+Поля:
+* log_id (INT, PK) — идентификатор записи
+* user_id (INT, FK) — пользователь
+* request_id (INT, FK) — заявка
+* action (VARCHAR(255)) — действие
+* created_at (DATETIME) — дата действия
